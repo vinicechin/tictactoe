@@ -1,0 +1,66 @@
+.container {
+  border: 3px solid black;
+  overflow: hidden;
+  width: 450px;
+  height: 450px;
+}
+
+.game-type {
+  width: 450px;
+  height: 450px;
+}
+
+.game-type button {
+  position: relative;
+  text-align: center;
+  top: 45%;
+  left: 18%;
+  width: 140px;
+  height: 45px;
+  margin-right: 10px;
+  font-size: 20;
+}
+
+.symbol-type {
+  width: 450px;
+  height: 450px;
+  display: none;
+}
+
+.symbol-type button {
+  position: relative;
+  text-align: center;
+  top: 45%;
+  left: 38%;
+  width: 50px;
+  margin-right: 10px;
+  font-size: 40;
+}
+
+#board {
+  display: none;
+  margin-top: 40px;
+  margin-left: 35px;
+}
+
+.table {
+  display: table;
+}
+
+.table__row {
+  display: table-row;
+}
+
+.table__tile {
+  text-align: center;
+  font-size: 80px;
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  min-height: 120px;
+  max-width: 120px;
+  max-height: 120px;
+  border: 3px solid black;
+  display: table-cell;
+  padding-top: 10px;
+}
