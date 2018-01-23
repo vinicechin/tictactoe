@@ -10,6 +10,7 @@ var p1Starts = true;
 $(".table__tile").on("click", handleTileClick);
 $(".game-type button").on("click", handleGameTypeChoice);
 $(".symbol-type button").on("click", handleSymbolTypeChoice);
+$("#reset-btn").on("click", handleReset);
 
 function handleTileClick(event) {
     var pos = event.target.id;
@@ -88,13 +89,13 @@ function handleComputerPlay() {
 }
 
 function computerPlay() {
-    foundPos:
-    for (i=0; i<3; i++) {
-        for (j=0; j<3; j++) {
-            if (board[i][j] == 0) {
-                updateBoard(4, "yellow", player2Symbol, i, j);
-                break foundPos;
-            }
+    var played = false;
+    while (!played) {
+        var i = Math.floor(Math.random() * 3);
+        var j = Math.floor(Math.random() * 3);
+        if (board[i][j] == 0) {
+            updateBoard(4, "yellow", player2Symbol, i, j);
+            played = true;
         }
     }
 }
@@ -163,6 +164,12 @@ function posGameEvents(playerName) {
     if (!turn && !isTwoPlayers) {
         handleComputerPlay();
     }
+}
+
+function handleReset() {
+    clearBoard();
+    $(".symbol-type").fadeOut(500);
+    $(".game-type").fadeIn(500);
 }
 
 function printBoard() {
