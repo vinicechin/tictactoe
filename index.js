@@ -17,15 +17,25 @@ function handleTileClick(event) {
         var hasEnded = false;
         if (turn) {
             updateBoard(1, "orange", player1Symbol, pos[0], pos[1]);
-            hasEnded = verifyVictory("Player1");
-            turn = false;
-            if (!isTwoPlayers && !hasEnded) {
-                handleComputerPlay();
+            if (verifyVictory("Player1")) {
+                posGameEvents("Player1");
+            } else if (verifyDraw()) {
+                posGameEvents(null);
+            } else {
+                turn = false;
+                if (!isTwoPlayers) {
+                    handleComputerPlay();
+                }
             }
         } else if (isTwoPlayers) {
             updateBoard(4, "green", player2Symbol, pos[0], pos[1]);
-            hasEnded = verifyVictory("Player2");
-            turn = true;
+            if (verifyVictory("Player2")) {
+                posGameEvents("Player2");
+            } else if (verifyDraw()) {
+                posGameEvents(null);
+            } else {
+                turn = true;
+            }
         }
     }
 
@@ -66,7 +76,11 @@ function handleComputerPlay() {
     if (!turn) {
         setTimeout(function() {
             computerPlay();
-            if (!verifyVictory("Computer")) {
+            if (verifyVictory("Computer")) {
+                posGameEvents("Computer");
+            } else if (verifyDraw()) {
+                posGameEvents(null);
+            } else {
                 turn = true;
             }
         }, 1000);
@@ -101,27 +115,26 @@ function verifyVictory(playerName) {
 
     for (i=0; i<3;i++) {
         if (board[i][0] + board[i][1] + board[i][2] == victoryPoints) {
-            posVictoryEvents(playerName);
             return true;
         }
         if (board[0][i] + board[1][i] + board[2][i] == victoryPoints) {
-            posVictoryEvents(playerName);
             return true;
         }
     }
     if (board[0][0] + board[1][1] + board[2][2] == victoryPoints) {
-        posVictoryEvents(playerName);
         return true;
     }
     if (board[2][0] + board[1][1] + board[0][2] == victoryPoints) {
-        posVictoryEvents(playerName);
-        return true;
-    }
-    if (getTotal() > 20) {
-        posVictoryEvents(null);
         return true;
     }
     
+    return false;
+}
+
+function verifyDraw() {
+    if (getTotal() > 20) {
+        return true;
+    }
     return false;
 }
 
@@ -133,8 +146,7 @@ function getTotal() {
     return total;
 }
 
-function posVictoryEvents(playerName) {
-    turn = !p1Starts;
+function posGameEvents(playerName) {
     if (playerName) {
         setTimeout(function() {
             alert(playerName + " victory!");
@@ -145,6 +157,11 @@ function posVictoryEvents(playerName) {
             alert("It's a draw!");
             clearBoard();
         }, 100);
+    }
+    p1Starts = !p1Starts;
+    turn = p1Starts;
+    if (!turn && !isTwoPlayers) {
+        handleComputerPlay();
     }
 }
 
